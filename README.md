@@ -68,6 +68,7 @@ prisma\             # Database configuration
 src\
   |--configs\       # Config files
   |--controllers\   # Request handler
+  |--helpers\       # Utility function
   |--middlewares\   # Middleware
   |--repositories\  # Database queries
   |--routes\        # API routes

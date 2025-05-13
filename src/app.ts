@@ -1,5 +1,4 @@
 import express, { Express, Request, Response } from 'express';
-import HTTP_STATUS from 'http-status-codes';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 import compress from 'compression';
@@ -8,6 +7,7 @@ import morgan from 'morgan';
 import limiter from './configs/ratelimit';
 import cors from './configs/cors';
 import logger from './configs/logger';
+import { responseInternalServerError, responseNotFound } from './helpers/response.helper';
 
 const openApiDocument = YAML.load('./docs/openapi.yaml');
 const app: Express = express();
@@ -30,17 +30,11 @@ app.use(
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
 app.use((req: Request, res: Response) => {
-  res.status(HTTP_STATUS.NOT_FOUND).json({
-    statusCode: HTTP_STATUS.NOT_FOUND,
-    message: 'Resource not found'
-  })
+  return responseNotFound(res, 'Resource not found');
 })
 
 app.use((err: Error, req: Request, res: Response) => {
-  res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
-    statusCode: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-    message: err.message
-  })
+  return responseInternalServerError(res, err.message);
 })
 
 export default app;

@@ -10,8 +10,7 @@ import logger from "./logger";
 const authService = AuthService();
 
 passport.use(
-  new LocalStrategy(
-    {
+  new LocalStrategy({
       usernameField: 'email',
       passwordField: 'password'
     }, async (
@@ -34,8 +33,7 @@ passport.use(
 )
 
 passport.use(
-  new JwtStrategy(
-    {
+  new JwtStrategy({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: config.JWTSecretKey
