@@ -14,5 +14,6 @@ router.get('/books', authorizeBearer, bookController().allBooks);
 router.get('/books/:id', authorizeBearer, bookController().bookById);
 
 router.get('/cart', authorizeBearer, cartController().getCart);
+router.post('/cart/items', authorizeBearer, cartController().addToCart);
 
 export default router;
