@@ -36,6 +36,20 @@ export const bookRepository = () => {
             name: true,
           },
         },
+        books_products: {
+          select: {
+            id: true,
+            format: true,
+            price: true,
+            stock: true,
+            warehouse: {
+              select: {
+                id: true,
+                name: true,
+              }
+            }
+          },
+        },
       }
     });
   };
