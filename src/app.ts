@@ -4,9 +4,9 @@ import swaggerUi from 'swagger-ui-express';
 import compress from 'compression';
 import YAML from 'yamljs';
 import morgan from 'morgan';
-import limiter from './configs/ratelimit';
-import cors from './configs/cors';
-import logger from './configs/logger';
+import limiter from './config/ratelimit';
+import cors from './config/cors';
+import logger from './config/logger';
 import { responseInternalServerError, responseNotFound } from './helpers/response.helper';
 
 const openApiDocument = YAML.load('./docs/openapi.yaml');

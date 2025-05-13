@@ -1,11 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import jwt, { JwtPayload, SignOptions, VerifyOptions } from 'jsonwebtoken';
-import config from '../configs/config';
+import config from '../config/config';
+import { AccessToken } from '../types/token';
 
-export const generateJWTAccess = (payload: JwtPayload): { 
-  accessToken: string; 
-  expiresIn: number; 
-  tokenType: string 
-} => {
+export const generateJWTAccess = (payload: JwtPayload): AccessToken => {
   const secretToken: string = config.JWTSecretKey ;
   const expiredToken: number = Number(config.JWTExpiresIn);
   const options: SignOptions = { 
@@ -21,7 +19,7 @@ export const generateJWTAccess = (payload: JwtPayload): {
   };
 };
 
-export const verifyTJWTAccess = (token: string) => {
+export const verifyTJWTAccess = (token: string): string | JwtPayload => {
   const secretToken: string = config.JWTSecretKey;
   const options: VerifyOptions = { 
     ignoreExpiration: false 

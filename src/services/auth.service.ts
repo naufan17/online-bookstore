@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs/umd/types";
-import logger from "../configs/logger";
+import logger from "../config/logger";
 import { CustomerRepository } from "../repositories/customer.repository";
 
 const customerRepository = CustomerRepository();
@@ -8,10 +8,10 @@ export const AuthService = () => {
   const authenticate = async (email: string, password: string) => {
    try {
     const customer = await customerRepository.findByEmail(email);
-    if (!customer) throw new Error('Invalid email or password');
+    if (!customer) throw new Error('Invalid email');
 
     const isPasswordValid: boolean = await bcrypt.compare(password, customer.password);
-    if (!isPasswordValid) throw new Error('Invalid email or password');
+    if (!isPasswordValid) throw new Error('Invalid password');
 
     return customer;
    } catch (error) {

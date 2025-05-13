@@ -17,7 +17,7 @@ passport.use(
       email: string, 
       password: string, 
       done: (error: unknown, user?: any, info?: { message: string }) => void
-    ) => {
+    ): Promise<void> => {
       try {
         const customer = await authService.authenticate(email, password);
 
