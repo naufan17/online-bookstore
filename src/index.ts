@@ -1,4 +1,4 @@
-import config from './config/config';
+import config from './configs/config';
 import app from './app';
 
 const port: number = Number(config.Port);
