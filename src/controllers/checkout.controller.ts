@@ -19,7 +19,6 @@ export const checkoutController = () => {
       if (!invoice) return responseNotFound(res, 'Invoice not found');
 
       for (const item of cart.cart_items) {
-        console.log(item.books_products.id);
         await invoiceRepository().createInvoiceItem(invoice.id, item.books_products.id, item.quantity, item.books_products.price);
       }
 
