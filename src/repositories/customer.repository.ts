@@ -8,7 +8,7 @@ export const CustomerRepository = () => {
         name, 
         email, 
         address, 
-        phone, 
+        phone,
         password 
       }
     });

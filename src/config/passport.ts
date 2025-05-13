@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import passport from "passport";
+import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import { AuthService } from "../services/auth.service";
+import { CustomerRepository } from "../repositories/customer.repository";
 import config from "./config";
 import logger from "./logger";
 
-
-const authService = AuthService();
+const customerRepository = CustomerRepository();
 
 passport.use(
   new LocalStrategy({
@@ -19,14 +19,18 @@ passport.use(
       done: (error: unknown, user?: any, info?: { message: string }) => void
     ): Promise<void> => {
       try {
-        const customer = await authService.authenticate(email, password);
+        const user = await customerRepository.findByEmail(email);
+        if (!user) return done(null, false, { message: 'Invalid email' });
 
-        return done(null, customer);
+        const isPasswordValid: boolean = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) return done(null, false, { message: 'Invalid password' });
+
+        return done(null, user);
       } catch (error) {
         console.error(error);
         logger.error(error);
 
-        return done(null, false, { message: (error as Error).message });        
+        return done(error);        
       }
     }
   )

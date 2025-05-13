@@ -9,10 +9,11 @@ export const responseOk = <T>(res: Response, message: string, data?: T) => {
   });
 };
 
-export const responseCreated = (res: Response, message: string) => {
+export const responseCreated = <T>(res: Response, message: string, data?: T) => {
   res.status(HTTP_STATUS.CREATED).json({
     statusCode: HTTP_STATUS.CREATED,
     message,
+    data,
   });
 };
 
@@ -51,7 +52,7 @@ export const responseConflict = (res: Response, message: string) => {
   });
 };
 
-export const responseInternalServerError = (res: Response, message: string) => {
+export const responseInternalServerError = (res: Response, message: unknown) => {
   res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
     statusCode: HTTP_STATUS.INTERNAL_SERVER_ERROR,
     message,

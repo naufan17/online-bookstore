@@ -4,10 +4,12 @@ import swaggerUi from 'swagger-ui-express';
 import compress from 'compression';
 import YAML from 'yamljs';
 import morgan from 'morgan';
+import { responseInternalServerError, responseNotFound } from './helpers/response.helper';
 import limiter from './config/ratelimit';
 import cors from './config/cors';
 import logger from './config/logger';
-import { responseInternalServerError, responseNotFound } from './helpers/response.helper';
+import api from './routes';
+import passport from 'passport';
 
 const openApiDocument = YAML.load('./docs/openapi.yaml');
 const app: Express = express();
@@ -22,11 +24,13 @@ app.use(
   cors,
   helmet(),
   compress(),
+  passport.initialize(),
   express.json(),
   express.urlencoded({ extended: true }),
   morgan('combined', { stream }),
 )
 
+app.use('/api', api);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
 app.use((req: Request, res: Response) => {

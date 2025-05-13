@@ -66,13 +66,12 @@ generated\          # Generated files
 logs\               # Log files
 prisma\             # Database configuration
 src\
-  |--configs\       # Config files
+  |--config\       # Config files
   |--controllers\   # Request handler
   |--helpers\       # Utility function
   |--middlewares\   # Middleware
   |--repositories\  # Database queries
   |--routes\        # API routes
-  |--services\      # Business logic
   |--types\         # Typescript types
   |--utils\         # Utility function
   |--validators\    # Validation function
