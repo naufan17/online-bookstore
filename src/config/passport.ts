@@ -3,11 +3,9 @@ import passport from "passport";
 import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import { CustomerRepository } from "../repositories/customer.repository";
+import { customerRepository } from "../repositories/customer.repository";
 import config from "./config";
 import logger from "./logger";
-
-const customerRepository = CustomerRepository();
 
 passport.use(
   new LocalStrategy({
@@ -19,7 +17,7 @@ passport.use(
       done: (error: unknown, user?: any, info?: { message: string }) => void
     ): Promise<void> => {
       try {
-        const user = await customerRepository.findByEmail(email);
+        const user = await customerRepository().findByEmail(email);
         if (!user) return done(null, false, { message: 'Invalid email' });
 
         const isPasswordValid: boolean = await bcrypt.compare(password, user.password);

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import prisma from "../config/prisma";
 
-export const CustomerRepository = () => {
+export const customerRepository = () => {
   const create = async (name: string, email: string, address: string, phone: string, password: string): Promise<any> => {
     return await prisma.customers.create({ 
       data: { 
