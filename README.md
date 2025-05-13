@@ -14,6 +14,10 @@
 ```
 npm install
 ```
+- Generate prisma client
+```
+npm run prisma:generate
+```
 - Migrate database
 ```
 npm run migrate 
@@ -80,9 +84,7 @@ src\
 ```
 
 ## API Documentation
-To view the API documentation, open the following link:
-<br/>
-``GET /api-docs`` - API documentation
+To view the API documentation, open the following link: https://documenter.getpostman.com/view/19562490/2sB2qUmPUq
 
 
 ## Response Format
