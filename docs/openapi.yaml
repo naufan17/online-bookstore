@@ -4,7 +4,7 @@ info:
   version: 1.3.0
   description: Online Bookstore API
 servers:
-  - url: http://localhost:8000
+  - url: http://localhost:8000/api
     description: Local server
 tags:
   - name: Auth
