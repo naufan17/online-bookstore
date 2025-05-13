@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
 import passport from "passport";
+import { Request, Response, NextFunction } from "express";
 import { responseUnauthorized } from "../helpers/response.helper";
 
 export const authorizeBearer = (req: Request, res: Response, next: NextFunction) => {

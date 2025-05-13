@@ -1,15 +1,15 @@
-import express, { Express, Request, Response } from 'express';
-import helmet from 'helmet';
-import swaggerUi from 'swagger-ui-express';
-import compress from 'compression';
-import YAML from 'yamljs';
-import morgan from 'morgan';
-import { responseInternalServerError, responseNotFound } from './helpers/response.helper';
-import limiter from './config/ratelimit';
-import cors from './config/cors';
-import logger from './config/logger';
-import api from './routes';
-import passport from 'passport';
+import express, { Express, Request, Response } from "express";
+import helmet from "helmet";
+import swaggerUi from "swagger-ui-express";
+import compress from "compression";
+import YAML from "yamljs";
+import morgan from "morgan";
+import { responseInternalServerError, responseNotFound } from "./helpers/response.helper";
+import passport from "./config/passport";
+import limiter from "./config/ratelimit";
+import cors from "./config/cors";
+import logger from "./config/logger";
+import api from "./routes";
 
 const openApiDocument = YAML.load('./docs/openapi.yaml');
 const app: Express = express();

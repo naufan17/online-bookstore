@@ -7,7 +7,7 @@ export const bookController = () => {
   const allBooks = async (req: Request, res: Response) => {
     try {
       const books = await bookRepository().findAll();
-      if (books.length === 0) return responseNotFound(res, 'Books not found');
+      if (!books) return responseNotFound(res, 'Books not found');
 
       return responseOk(res, 'Books found successfully', books);
     } catch (error) {

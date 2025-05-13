@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import passport from "passport";
@@ -25,7 +26,7 @@ export const authController = () => {
       const newCustomer = await customerRepository().create(name, email, address, phone, hashedPassword);
       if (!newCustomer) return responseInternalServerError(res, 'Customer not created');
 
-      const accessToken: AccessToken = generateJWTAccess({ id: newCustomer.id });
+      const accessToken: AccessToken = generateJWTAccess({ sub: newCustomer.id });
 
       return responseCreated(res, 'Customer registered successfully', accessToken);
     } catch (error) {
@@ -36,14 +37,14 @@ export const authController = () => {
     }
   }
 
-  const login = (req: Request, res: Response) => {
+  const login = (req: Request, res: Response): void => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return responseBadRequest(res, errors.array()[0].msg);
 
-    passport.authenticate('local', { session: false }, (err: Error, user: { id: string }, info?: { message: string }) => {
+    passport.authenticate('local', { session: false }, (err: Error, user: any, info?: { message: string }) => {
       if (err || !user) return responseUnauthorized(res, info?.message || 'Invalid email or password');
 
-      const accessToken: AccessToken = generateJWTAccess({ id: user.id });
+      const accessToken: AccessToken = generateJWTAccess({ sub: user.id });
 
       return responseOk(res, 'Login successful', accessToken);
     })(req, res);
