@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model authors {
+  id        String   @id @default(uuid())
+  name      String
+  bio       String
+  birthdate DateTime
+  books     books[]
+}
+
+model customers {
+  id       String     @id @default(uuid())
+  name     String
+  email    String
+  address  String
+  phone    String
+  password String
+  carts    carts[]
+  invoices invoices[]
+}
+
+model books {
+  id               String           @id @default(uuid())
+  title            String
+  isbn             String
+  publication_year Int
+  genre            String
+  author_id        String
+  author           authors          @relation(fields: [author_id], references: [id])
+  books_products   books_products[]
+}
+
+model warehouses {
+  id             String           @id @default(uuid())
+  name           String
+  location       String
+  capacity       Int
+  books_products books_products[]
+}
+
+model carts {
+  id          String       @id @default(uuid())
+  customer_id String
+  created_at  DateTime
+  customer    customers    @relation(fields: [customer_id], references: [id])
+  cart_items  cart_items[]
+  invoices    invoices[]
+}
+
+model books_products {
+  id            String          @id @default(uuid())
+  book_id       String
+  price         Decimal
+  stock         Int
+  format        String
+  warehouse_id  String
+  book          books           @relation(fields: [book_id], references: [id])
+  warehouse     warehouses      @relation(fields: [warehouse_id], references: [id])
+  invoice_items invoice_items[]
+  cart_items    cart_items[]
+}
+
+model invoices {
+  id            String          @id @default(uuid())
+  total_amount  Decimal
+  issued_at     DateTime
+  status        String
+  customer_id   String
+  cart_id       String
+  customer      customers       @relation(fields: [customer_id], references: [id])
+  cart          carts           @relation(fields: [cart_id], references: [id])
+  invoice_items invoice_items[]
+}
+
+model invoice_items {
+  id                String         @id @default(uuid())
+  books_products_id String
+  quantity          Int
+  price             Decimal
+  invoice_id        String
+  books_products    books_products @relation(fields: [books_products_id], references: [id])
+  invoice           invoices       @relation(fields: [invoice_id], references: [id])
+}
+
+model cart_items {
+  id                String         @id @default(uuid())
+  books_products_id String
+  quantity          Int
+  created_at        DateTime
+  cart_id           String
+  books_products    books_products @relation(fields: [books_products_id], references: [id])
+  cart              carts          @relation(fields: [cart_id], references: [id])
+}

@@ -66,7 +66,7 @@ generated\          # Generated files
 logs\               # Log files
 prisma\             # Database configuration
 src\
-  |--config\       # Config files
+  |--config\        # Config files
   |--controllers\   # Request handler
   |--helpers\       # Utility function
   |--middlewares\   # Middleware
