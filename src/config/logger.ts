@@ -1,5 +1,5 @@
 import { createLogger, format, Logger, transports } from "winston";
-import { fullDateNow } from "../src/utils/fulldatenow";
+import { fullDateNow } from "../utils/fulldatenow";
 
 const { combine, timestamp, json, simple, colorize } = format;
 const dateFormat: string = fullDateNow();

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '../../generated/prisma';
 import bcrypt from "bcryptjs";
 
 const prisma: PrismaClient = new PrismaClient();
@@ -8,10 +8,26 @@ async function main() {
   // Seed authors
   await prisma.authors.createMany({
     data: [
-      { name: "Alice Doe", bio: "I am Alice", birthdate: new Date("1990-01-01") },
-      { name: "Bob Doe", bio: "I am Bob", birthdate: new Date("1991-01-01") },
-      { name: "Charlie Doe", bio: "I am Charlie", birthdate: new Date("1992-01-01") },
-      { name: "Dave Doe", bio: "I am Dave", birthdate: new Date("1993-01-01") },
+      { 
+        name: "Alice Doe", 
+        bio: "I am Alice", 
+        birthdate: new Date("1990-01-01") 
+      },
+      { 
+        name: "Bob Doe", 
+        bio: "I am Bob", 
+        birthdate: new Date("1991-01-01") 
+      },
+      { 
+        name: "Charlie Doe", 
+        bio: "I am Charlie", 
+        birthdate: new Date("1992-01-01") 
+      },
+      { 
+        name: "Dave Doe", 
+        bio: "I am Dave", 
+        birthdate: new Date("1993-01-01") 
+      },
     ],
   });
 
@@ -95,32 +111,32 @@ async function main() {
     await prisma.books_products.createMany({
       data: [
         { 
-          books_id: books[0].id, 
+          book_id: books[0].id, 
           price: 9.99,
           stock: 100,
           format: "Hardcover",
-          warehouses_id: warehouses[0].id 
+          warehouse_id: warehouses[0].id 
         },
         { 
-          books_id: books[1].id,
+          book_id: books[1].id,
           price: 14.99,
           stock: 50,
           format: "Paperback", 
-          warehouses_id: warehouses[1].id 
+          warehouse_id: warehouses[1].id 
         },
         { 
-          books_id: books[2].id,
+          book_id: books[2].id,
           price: 12.99,
           stock: 75,
           format: "Hardcover", 
-          warehouses_id: warehouses[0].id 
+          warehouse_id: warehouses[0].id 
         },
         { 
-          books_id: books[3].id,
+          book_id: books[3].id,
           price: 8.99,
           stock: 200,
           format: "Paperback", 
-          warehouses_id: warehouses[1].id 
+          warehouse_id: warehouses[1].id 
         },
       ],
     });
@@ -144,66 +160,65 @@ async function main() {
   }
 
   // Seed cart items
-  const booksForCart = await prisma.books.findMany();
-  const warehousesForCart = await prisma.warehouses.findMany();
-  if (booksForCart.length > 0 && warehousesForCart.length > 0) {
+  const booksProduct = await prisma.books_products.findMany();
+  const carts = await prisma.carts.findMany();
+  if (booksProduct.length > 0 && carts.length > 0) {
     await prisma.cart_items.createMany({
       data: [
         { 
-          books_products_id: booksForCart[0].id, 
+          books_products_id: booksProduct[0].id, 
           quantity: 2,
           created_at: new Date(), 
-          cart_id: warehousesForCart[0].id 
+          cart_id: carts[0].id 
         },
         { 
-          books_products_id: booksForCart[1].id, 
+          books_products_id: booksProduct[1].id, 
           quantity: 1, 
           created_at: new Date(),
-          cart_id: warehousesForCart[1].id 
+          cart_id: carts[1].id 
         },
       ],
     });
   }
 
   // Seed invoices
-  const customers2 = await prisma.customers.findMany();
-  if (customers2.length > 0) {
+  if (customers.length > 0 || carts.length > 0) {
     await prisma.invoices.createMany({
       data: [
         { 
           total_amount: 100.00, 
           issued_at: new Date(), 
           status: "Pending",
-          customer_id: customers2[0].id, 
-          cart_id: warehouses[0].id },
+          customer_id: customers[0].id, 
+          cart_id: carts[0].id 
+        },
         { 
           total_amount: 50.00, 
           issued_at: new Date(), 
           status: "Paid",
-          customer_id: customers2[1].id, 
-          cart_id: warehouses[1].id 
+          customer_id: customers[1].id, 
+          cart_id: carts[1].id 
         },
       ],
     });
   }
 
   // Seed invoice items
-  const books2 = await prisma.books.findMany();
-  const warehouses2 = await prisma.warehouses.findMany();
-  if (books2.length > 0 && warehouses2.length > 0) {
+  const invoices = await prisma.invoices.findMany();
+  if (booksProduct.length > 0 && invoices.length > 0) {
     await prisma.invoice_items.createMany({
       data: [
         { 
-          books_products_id: books2[0].id, 
+          books_products_id: booksProduct[0].id, 
           quantity: 2,
           price: 9.99, 
-          invoice_id: warehouses2[0].id 
+          invoice_id: invoices[0].id 
         },
         { 
-          books_products_id: books2[1].id, 
+          books_products_id: booksProduct[1].id, 
           quantity: 1, 
           price: 14.99,
-          invoice_id: warehouses2[1].id 
+          invoice_id: invoices[1].id 
         },
       ],
     });

@@ -6,7 +6,6 @@ const corsOptions: CorsOptions = {
   methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
   allowedHeaders: ['Origin', 'Content-Type', 'Content-Length', 'Authorization'],
   credentials: true,
-  preflightContinue: false,
   maxAge: 86400
 };
 
