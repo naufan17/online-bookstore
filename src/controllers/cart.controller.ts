@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Request, Response } from "express";
-import { responseNotFound, responseOk } from "../helpers/response.helper";
+import { responseInternalServerError, responseNotFound, responseOk } from "../helpers/response.helper";
 import { cartRepository } from "../repositories/cart.repository";
 import logger from "../config/logger";
 
@@ -43,7 +43,7 @@ export const cartController = () => {
       logger.error(error);
       console.error(error);
       
-      return responseNotFound(res, 'Add to cart failed');
+      return responseInternalServerError(res, 'Add to cart failed');
     }
   };
 

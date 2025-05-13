@@ -19,6 +19,7 @@ export const cartRepository = () => {
             created_at: true,
             books_products: {
               select: {
+                id: true,
                 book: {
                   select: {
                     title: true,
@@ -43,7 +44,7 @@ export const cartRepository = () => {
     });
   }
 
-  const addToCart = async (books_products_id: string, quantity: number, cartId: string): Promise<any> => {
+  const addToCart = async (booksProductsId: string, quantity: number, cartId: string): Promise<any> => {
     return await prisma.cart_items.create({
       data: { 
         quantity,
@@ -55,9 +56,17 @@ export const cartRepository = () => {
         },
         books_products: { 
           connect: { 
-            id: books_products_id 
+            id: booksProductsId 
           } 
         }
+      }
+    });
+  }
+
+  const deleteCart = async (cartId: string): Promise<any> => {
+    await prisma.cart_items.deleteMany({
+      where: {
+        cart_id: cartId
       }
     });
   }
@@ -65,6 +74,7 @@ export const cartRepository = () => {
   return {
     getCartByCustomerId,
     create,
-    addToCart
+    addToCart,
+    deleteCart
   }
 };
