@@ -49,7 +49,12 @@ export const invoiceRepository = () => {
         id: true,
         status: true,
         total_amount: true,
-        issued_at: true
+        issued_at: true,
+        cart: {
+          select: {
+            id: true,
+          }
+        }
       }
     })
   }

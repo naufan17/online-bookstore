@@ -600,14 +600,17 @@ paths:
                       properties:
                         invoice_id:
                           type: string
-                        cart_id:
-                          type: string
                         total_amount:
                           type: number
                         status:
                           type: string
                         issued_at:
                           type: string
+                        cart:
+                          type: object
+                          properties:
+                            id:
+                              type: number
         '401':
           description: Unauthorized
           content:
